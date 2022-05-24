@@ -18,7 +18,7 @@ const CartItem = ({ item }) => {
             title: item.title,
             img: item.img,
             price: item.price,
-            quantity: amount
+            quantity: e.target.value
         }
         ));
     }
@@ -51,7 +51,7 @@ const CartItem = ({ item }) => {
                         type="number"
                         defaultValue={item.quantity}
                         size="small"
-                        onChange={handleChange}
+                        onChange={(e)=>handleChange(e)}
                     />
                 </ItemAmount>
             </CardContent>
