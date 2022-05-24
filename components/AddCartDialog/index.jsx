@@ -4,7 +4,7 @@ import { DialogLink } from "./DialogStyle";
 import Link from 'next/link'
 
 const AddCartDialog = ({ showDialog }) => {
-    const [open, setOpen] = useState({showDialog});
+    const [open, setOpen] = useState(showDialog);
 
     const handleClose = () => {
         setOpen(false)
@@ -12,8 +12,8 @@ const AddCartDialog = ({ showDialog }) => {
 
     return (
             <Dialog onClose={handleClose} open={open}>
-                <Link href='/cart'><DialogLink variant="outlined">Go To Cart</DialogLink></Link>
-                <Link href='/'><DialogLink variant="contained">Continue Shopping</DialogLink></Link>
+                <DialogLink variant="outlined"><Link href='/cart'>Go To Cart</Link></DialogLink>
+                <DialogLink variant="contained"><Link href='/'>Continue Shopping</Link></DialogLink>
             </Dialog>
     )
 }
