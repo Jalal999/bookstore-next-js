@@ -6,12 +6,19 @@ import { addProduct } from '../../redux/cartSlice';
 import AddCartDialog from '../AddCartDialog';
 
 const ProductDetails = ({ product }) => {
-    const [amount, setAmount] = useState(1);
+    const [quantity, setQuantity] = useState(1);
     const dispatch = useDispatch();
     const [showDialog, setShowDialog] = useState(false);
 
     const handleClick = () => {
-        dispatch(addProduct({...product, amount}))
+        dispatch(addProduct({
+            id: product._id,
+            title: product.title,
+            img: product.img,
+            price: product.price,
+            quantity: quantity
+        }
+        ));
         setShowDialog(true);
     }
 
@@ -40,7 +47,7 @@ const ProductDetails = ({ product }) => {
                                 type="number"
                                 defaultValue="1"
                                 size="small"
-                                onChange={(e)=>setAmount(e.target.value)}
+                                onChange={(e)=>setQuantity(e.target.value)}
                                 />
                             </Amount>
                             <PriceRate>
@@ -51,8 +58,8 @@ const ProductDetails = ({ product }) => {
                             </PriceRate>
                         </ProductAmount> 
                     </CardContent>
-                    <AddButton variant="contained" onClick={handleClick}>Add To Cart</AddButton>
                 </CardActionArea>
+                <AddButton variant="contained" onClick={handleClick}>Add To Cart</AddButton>
             </ProductCard>
             {showDialog && <AddCartDialog showDialog={showDialog}/> }
         </div>
