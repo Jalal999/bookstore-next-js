@@ -3,7 +3,7 @@ import { ProductHeading, ProductCard, ProductAmount, Amount, PriceRate, AddButto
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addProduct } from '../../redux/cartSlice';
-import AddCartDialog from '../AddCartDialog';
+import AddCartDialog from './AddCartDialog';
 
 const ProductDetails = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
