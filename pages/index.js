@@ -1,6 +1,3 @@
-import Head from 'next/head'
-import Product from '../components/Product'
-import Cart from './cart'
 import ProductList from '../components/ProductList'
 import axios from 'axios'
 

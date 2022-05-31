@@ -1,12 +1,15 @@
-import { Button, Card, Divider } from '@mui/material';
-import { Box } from '@mui/system';
 import styled from 'styled-components';
+import { Card, Box, Divider } from '@mui/material';
+
 
 export const Item = styled(Card)`
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 5px;
     margin: 5px 10px;
 `
+
 
 export const ItemDesc = styled(Box)`
     display: flex;
@@ -15,22 +18,18 @@ export const ItemDesc = styled(Box)`
     padding: 0;
 `
 
-export const ItemAmount = styled(Box)`
+export const Checkout = styled.div`
+    padding: 0 5px;
+`
+
+export const OrderDesc = styled.div`
+    padding: 0 5px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0;
-    margin-top: 30px;
+    justify-content: center;
+    margin-top: 10px
 `
 
 export const BreakLine = styled(Divider)`
-    margin: 30px 0;
-`
-
-export const CheckoutBtn = styled(Button)`
-    width: 100%;
-`
-
-export const CartDesc = styled.div`
-    padding: 0 10px;
+    margin: 15px 0;
 `
