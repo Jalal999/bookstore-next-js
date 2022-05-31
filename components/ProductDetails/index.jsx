@@ -1,5 +1,5 @@
-import { Card, CardContent, CardMedia, Typography, Button, CardActionArea, CardActions, TextField, Rating  } from '@mui/material';
-import { ProductHeading, ProductCard, ProductAmount, Amount, PriceRate, AddButton } from './ProductDetailsStyle';
+import { CardContent, CardMedia, Typography, CardActionArea, TextField, Rating  } from '@mui/material';
+import { ProductHeading, ProductCard, ProductAmount, Amount, PriceRate, AddButton, ProductDesc } from './ProductDetailsStyle';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addProduct } from '../../redux/cartSlice';
@@ -36,17 +36,19 @@ const ProductDetails = ({ product }) => {
                     alt="book1"
                     />
                     <CardContent>
-                        <Typography variant="body2" color="text.secondary">
+                        <ProductDesc variant="body2" color="text.secondary">
                             {product.description}
-                        </Typography>
+                        </ProductDesc>
                         <ProductAmount>
                             <Amount>
                                 <label>Amount:</label>
                                 <TextField
                                 id="outlined-size-small"
                                 type="number"
+                                InputProps={{ inputProps: { min: "1", max: "10", step: "1" } }}
                                 defaultValue="1"
                                 size="small"
+                                style={{width: 70}}
                                 onChange={(e)=>setQuantity(e.target.value)}
                                 />
                             </Amount>

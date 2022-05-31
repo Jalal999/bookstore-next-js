@@ -49,6 +49,7 @@ const CartItem = ({ item }) => {
                     <TextField sx={{width: '55px'}}
                         id="outlined-size-small"
                         type="number"
+                        InputProps={{ inputProps: { min: "1", max: "10", step: "1" } }}
                         defaultValue={item.quantity}
                         size="small"
                         onChange={(e)=>handleChange(e)}

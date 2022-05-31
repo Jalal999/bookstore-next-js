@@ -3,12 +3,18 @@ import Card from '@mui/material/Card';
 import { Nav, MenuLinks, Logo, MenuLink } from "./NavbarStyle"
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useRouter } from "next/router";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const Navbar = () => {
+    const router = useRouter();
     return (
         <Card>
             <Nav>
                 <Logo>
+                    {router.route !== '/' &&
+                    <ArrowBackIcon onClick={() => router.back()} />}
                     <Link href='/'>
                         BookStore
                     </Link>

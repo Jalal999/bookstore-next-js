@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import styled from 'styled-components';
 
 export const ProductCard = styled(Card)`
@@ -12,5 +12,10 @@ export const ProductHeading = styled(CardContent)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 0;
 `;
+
+export const ProductDesc = styled(Typography)`
+    padding-top: 0;
+`
 

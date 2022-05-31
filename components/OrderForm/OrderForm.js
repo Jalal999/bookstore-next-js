@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 export const Form = styled.form`
     padding-top: 20px;
@@ -7,6 +7,10 @@ export const Form = styled.form`
 `
 
 export const Input = styled(TextField)`
-    margin: 5px 10px;
+    margin: 5px 0;
     padding: 0;
+`
+
+export const OrderBtn = styled(Button)`
+    width: 100%;
 `
