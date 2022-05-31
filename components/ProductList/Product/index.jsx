@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { Card, CardContent, CardMedia, Typography, Button, CardActionArea, CardActions } from '@mui/material';
-import { ProductHeading, ProductCard } from './ProductStyle';
+import { CardContent, CardMedia, Typography, CardActionArea } from '@mui/material';
+import { ProductHeading, ProductCard, ProductDesc } from './ProductStyle';
 
 const Product = ({ product }) => {
     return (
@@ -21,10 +21,10 @@ const Product = ({ product }) => {
                             ${product.price}
                         </Typography>
                     </ProductHeading>
-                    <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-                            {product.description}
-                        </Typography>
+                    <CardContent sx={{paddingTop: "0"}}>
+                        <ProductDesc variant="body2" color="text.secondary">
+                            {product.description.slice(0, 50)}...
+                        </ProductDesc>
                     </CardContent>
                 </CardActionArea>
             </ProductCard>

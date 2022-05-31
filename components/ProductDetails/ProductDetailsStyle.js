@@ -27,7 +27,13 @@ export const Amount = styled.div`
 `
 
 export const PriceRate = styled.div`
+    text-align: center;
 `
+
 export const AddButton = styled(Button)`
     width: 100%;
+`
+
+export const ProductDesc = styled(Typography)`
+    text-align: center;
 `

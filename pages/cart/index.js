@@ -5,7 +5,7 @@ import { BreakLine, CheckoutBtn, CartDesc } from "../../components/CartItem/Cart
 import Link from 'next/link'
 
 
-const index = () => {
+const Index = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state)=>state.cart);
 
@@ -31,4 +31,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Index

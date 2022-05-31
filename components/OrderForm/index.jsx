@@ -1,17 +1,29 @@
-import { Form, Input } from "./OrderForm";
-// import { regexEmail, regexName } from "./Regex";
+import { Form, Input, OrderBtn } from "./OrderForm";
+import axios from "axios"
 import { useForm } from "react-hook-form";
-import { Button, Container } from "@mui/material";
-import { CheckoutBtn } from "../CartItem/CartItemStyle";
+import { Container } from "@mui/material";
 import { useState } from "react";
+import { useSelector } from "react-redux"
 import ThankDialog from "./ThankDialog";
 
 const OrderForm = () => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
     const [showDialog, setShowDialog] = useState(false);
+    const cart = useSelector((state)=>state.cart);
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data)
+        const customer = data.nameSurname;
+        const email = data.email;
+        const total = cart.total;
+
+        try {
+            const newOrder = { customer, email, total };
+            console.log(newOrder)
+            await axios.post("http://localhost:3000/api/orders", newOrder);
+        } catch(err) {
+            console.log(err)
+        }
         setShowDialog(true)
     }
    
@@ -68,7 +80,7 @@ const OrderForm = () => {
                     error={!!errors?.nameSurname}
                     helperText={errors?.nameSurname ? errors.nameSurname.message : null}
                 />
-                <CheckoutBtn variant="outlined" color="primary" type="submit">Submit</CheckoutBtn>
+                <OrderBtn variant="contained" color="primary" type="submit">Order</OrderBtn>
             </Form>
             {showDialog && <ThankDialog showDialog={showDialog}/> }
         </Container>

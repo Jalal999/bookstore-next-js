@@ -9,6 +9,8 @@ export const Nav = styled.nav`
 export const Logo = styled.h1`
     font-size:20px;
     margin-left: 10px;
+    display: flex;
+    align-items: center;
 `;
 
 export const MenuLinks = styled.ul`

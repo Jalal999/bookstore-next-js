@@ -7,7 +7,7 @@ import { useState } from "react";
 import OrderForm from "../../components/OrderForm";
 
 
-const index = () => {
+const Index = () => {
     const cart = useSelector((state)=>state.cart);
     const [showOrderForm, setShowOrderForm] = useState(false)
 
@@ -29,4 +29,4 @@ const index = () => {
     )
 }
 
-export default index;
+export default Index;
