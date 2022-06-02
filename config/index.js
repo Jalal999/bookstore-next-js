@@ -1,3 +1,3 @@
 const dev = process.env.NODE_ENV !== 'production'
 
-export const server = dev ? 'http://localhost:3000' : 'https://bookstore-demo.vercel.app';
+export const server = dev ? 'http://localhost:3000' : 'https://demo-bookstore.vercel.app';
