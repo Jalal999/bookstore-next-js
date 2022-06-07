@@ -13,7 +13,7 @@ const Navbar = () => {
         <Card>
             <Nav>
                 <Logo>
-                    {router.route !== '/' &&
+                    {(router.route !== '/' || (router.route !== '' && router.route !== '/')) &&
                     <ArrowBackIcon onClick={() => router.back()} />}
                     <Link href='/'>
                         BookStore

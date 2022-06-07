@@ -1,5 +1,6 @@
 import ProductList from '../components/ProductList'
 import axios from 'axios'
+import {server} from '../config';
 
 export default function Home({ products }) {
   return (
@@ -10,9 +11,8 @@ export default function Home({ products }) {
 }
 
 export const getServerSideProps = async () => {
-  const homeUrl = process.env.HOME_URL
-
-  const res = await axios.get(`/api/products`);
+  console.log(server)
+  const res = await axios.get(`${server}/api/products`);
   return {
     props: {
       products: res.data,
