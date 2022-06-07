@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "image": "/img/book_image_1.jpg",
+      "img": "/img/book_image_1.jpg",
       "price": "17",
       "title": "React JS",
       "description":
@@ -9,7 +9,7 @@
     },
     {
       "id": 2,
-      "image": "/img/book_image_2.jpg",
+      "img": "/img/book_image_2.jpg",
       "price": "10",
       "title": "Inferno",
       "description":

@@ -1,6 +1,7 @@
 import ProductList from '../components/ProductList'
 import axios from 'axios'
 import {server} from '../config';
+import Products from "../products.json"
 
 export default function Home({ products }) {
   return (
