@@ -1,11 +1,18 @@
-/** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   reactStrictMode: true,
+// /** @type {import('next').NextConfig} */
+// // const nextConfig = {
+// //   reactStrictMode: true,
+// // }
+
+// module.exports = {
+//   env: {
+//     "BASE_URL": "https://demo-jalal.herokuapp.com/",
+//     "MONGO_URL": "mongodb+srv://Jalal999:Jalal999@cluster0.m9bd3.mongodb.net/bookstoree?retryWrites=true&w=majority"
+//   }
 // }
 
-module.exports = {
-  env: {
-    "NEXT_PUBLIC_BASE_URL": "https://jalal999.herokuapp.com",
-    "MONGO_URL": "mongodb+srv://Jalal999:Jalal999@cluster0.m9bd3.mongodb.net/bookstoree?retryWrites=true&w=majority"
-  }
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
 }
+
+module.exports = nextConfig
