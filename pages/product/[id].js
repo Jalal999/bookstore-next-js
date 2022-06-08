@@ -10,7 +10,9 @@ const product = ({ product }) => {
 }
 
 export const getServerSideProps = async ({params}) => {
-    const res = await axios.get(`http://localhost:3000/api/products/${params.id}`);
+    const baseUrl = process.env.BASE_URL
+
+    const res = await axios.get(`${baseUrl}/api/products/${params.id}`);
   
     return {
       props: {
