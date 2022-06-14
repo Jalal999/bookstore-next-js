@@ -20,7 +20,8 @@ const OrderForm = () => {
         try {
             const newOrder = { customer, email, total };
             console.log(newOrder)
-            await axios.post("http://localhost:3000/api/orders", newOrder);
+            const baseUrl = process.env.BASE_URL
+            await axios.post(`${baseUrl}/api/orders`, newOrder);
         } catch(err) {
             console.log(err)
         }
