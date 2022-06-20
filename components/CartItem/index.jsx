@@ -8,19 +8,21 @@ import { ProductAmount } from '../ProductDetails/ProductDetailsStyle';
 
 
 const CartItem = ({ item }) => {
-    const [amount, setAmount] = useState(item.amount);
+    const [amount, setAmount] = useState(item.quantity);
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
-        setAmount(e.target.value)
-        dispatch(updateAmount({
-            id: item.id,
-            title: item.title,
-            img: item.img,
-            price: item.price,
-            quantity: e.target.value
+        if (!isNaN(e.target.value) && e.target.value > 0) {
+            setAmount(e.target.value);
+            dispatch(updateAmount({
+                id: item.id,
+                title: item.title,
+                img: item.img,
+                price: item.price,
+                quantity: e.target.value
+            }
+            ));
         }
-        ));
     }
 
     const deleteItem = () => {
@@ -46,13 +48,16 @@ const CartItem = ({ item }) => {
                     <Typography component="div" variant="h5">
                         ${item.price}
                     </Typography>
-                    <TextField sx={{width: '55px'}}
+                    <TextField sx={{width: '75px'}}
                         id="outlined-size-small"
                         type="number"
-                        InputProps={{ inputProps: { min: "1", max: "10", step: "1" } }}
-                        defaultValue={item.quantity}
+                        InputProps={{ inputProps: { min: "1", max: "10", step: "1" }}}
+                        value={amount}
                         size="small"
-                        onChange={(e)=>handleChange(e)}
+                        onInput = {(e) =>{
+                            e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,1)
+                        }}
+                        onChange={handleChange}
                     />
                 </ItemAmount>
             </CardContent>
