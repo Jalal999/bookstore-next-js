@@ -4,7 +4,7 @@ import { CheckoutBtn } from "../../components/CartItem/CartItemStyle";
 import { Checkout, OrderDesc, BreakLine } from "../../components/OrderItem/OrderItemStyle";
 import { Typography } from "@mui/material";
 import { useState } from "react";
-import OrderForm from "../../components/OrderForm";
+import OrderForm from "../../components/Forms/OrderForm";
 
 
 const Index = () => {

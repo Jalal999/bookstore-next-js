@@ -5,7 +5,7 @@ import { Container } from "@mui/material";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import ThankDialog from "./ThankDialog";
-import { reset } from "../../redux/cartSlice";
+import { reset } from "../../../redux/cartSlice";
 
 const OrderForm = () => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
@@ -23,7 +23,7 @@ const OrderForm = () => {
             const newOrder = { customer, email, total };
             console.log(newOrder)
             const baseUrl = process.env.BASE_URL
-            await axios.post(`${baseUrl}/api/orders`, newOrder);
+            await axios.post(`http://localhost:3000/api/orders`, newOrder);
         } catch(err) {
             console.log(err)
         }
