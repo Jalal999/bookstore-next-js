@@ -3,13 +3,15 @@ import axios from "axios"
 import { useForm } from "react-hook-form";
 import { Container } from "@mui/material";
 import { useState } from "react";
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import ThankDialog from "./ThankDialog";
+import { reset } from "../../redux/cartSlice";
 
 const OrderForm = () => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
     const [showDialog, setShowDialog] = useState(false);
     const cart = useSelector((state)=>state.cart);
+    const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
         console.log(data)
@@ -20,11 +22,13 @@ const OrderForm = () => {
         try {
             const newOrder = { customer, email, total };
             console.log(newOrder)
-            await axios.post("http://localhost:3000/api/orders", newOrder);
+            const baseUrl = process.env.BASE_URL
+            await axios.post(`${baseUrl}/api/orders`, newOrder);
         } catch(err) {
             console.log(err)
         }
         setShowDialog(true)
+        dispatch(reset());
     }
    
     return (
