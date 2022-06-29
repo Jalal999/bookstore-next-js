@@ -1,13 +1,11 @@
 import { Box } from "@mui/material";
-import Sidebar from "../../components/Sidebar";
 import axios from "axios";
-import PanelOrdersTable from "../../components/PanelOrdersTable";
+import PanelOrdersTable from "../../../components/PanelOrdersTable";
 
 const Orders = ({ orders }) => {
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box>
             <PanelOrdersTable data={orders}/>
-            <Sidebar />
         </Box>
     )
 }

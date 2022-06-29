@@ -1,25 +1,45 @@
 import * as React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Alert } from '@mui/material';
 import { ProductsContent, ProductsTableHeader } from './ProductTableStyle';
 import Link from 'next/link'
 import axios from 'axios';
+import { useState } from 'react';
+import AddProductForm from '../Forms/AddProductForm';
 
 
 export const PanelProductTable = ({ data }) => {
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("")
+  const [successMsg, setSuccessMsg] = useState("")
+
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/products/${id}`);
+      await axios.delete(`http://localhost:3000/api/products/5`);
     } catch(err) {
       console.log(err)
+      setErrorAlert(true);
+      setErrorMsg("There is an error while deleting product.")
+    }
+  }
+
+  const setAlert = (isSuccess) => {
+    if(!isSuccess) {
+      setErrorAlert(true);
+      setErrorMsg("The new product is not added...")
+    } else {
+      setSuccessMsg("The new product is added successfully!")
     }
   }
 
   return (
     <ProductsContent>
+        {errorAlert && <Alert severity="error">{errorMsg}</Alert>}
+        {successMsg !== "" && <Alert severity="success">{successMsg}</Alert>}
         <ProductsTableHeader>
           <h1>Products</h1>
-          <Button variant="outlined">Add Product</Button>
+          <Button variant="outlined" onClick={()=>setShowAddForm(true)}>Add Product</Button>
         </ProductsTableHeader>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -45,14 +65,14 @@ export const PanelProductTable = ({ data }) => {
                   <TableCell align="right">{data.description.slice(0, 25)}...</TableCell>
                   <TableCell align="right">{data.price}</TableCell>
                   <TableCell align="right">{data.amount}</TableCell>
-                  <TableCell>
+                  <TableCell align='right'>
                     <Button variant="contained">
                       <Link href={`/admin/products/${data._id}`}>
                         View
                       </Link>
                     </Button>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align='left'>
                     <Button variant="outlined" color="error" onClick={()=>handleDelete(data._id)}>
                       Delete
                     </Button>
@@ -62,6 +82,7 @@ export const PanelProductTable = ({ data }) => {
             </TableBody>
           </Table>
         </TableContainer>
+        {showAddForm && <AddProductForm showDialog={showAddForm} setAlert={setAlert} />}
     </ProductsContent>
   );
 }

@@ -1,9 +1,7 @@
-import Sidebar from "../../components/Sidebar";
-
 
 const Index = () => {
     return(
-        <Sidebar />
+        <>Admin Dashboard</>
     )
 }
 

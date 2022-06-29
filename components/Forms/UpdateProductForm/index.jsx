@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 
 
-const ProductForm = ({ product }) => {
+const UpdateProductForm = ({ product }) => {
   const { register, handleSubmit, formState: { errors }, getValues } = useForm();
 
   const onSubmit = async (data) => {
@@ -100,4 +100,4 @@ const ProductForm = ({ product }) => {
   );
 }
 
-export default ProductForm;
+export default UpdateProductForm;

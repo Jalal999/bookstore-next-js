@@ -1,13 +1,14 @@
 import axios from "axios";
 import { Box } from "@mui/material";
 import UpdateProductForm from "../../../components/Forms/UpdateProductForm";
+import UpdateOrderForm from "../../../components/Forms/UpdateOrderForm";
 
 
-const product = ({ product }) => {
+const order = ({ order }) => {
 
     return (
         <Box>
-            <UpdateProductForm product={product}/>
+            <UpdateOrderForm order={order}/>
         </Box>
     )
 }
@@ -15,13 +16,13 @@ const product = ({ product }) => {
 export const getServerSideProps = async ({params}) => {
     const baseUrl = process.env.BASE_URL
 
-    const res = await axios.get(`${baseUrl}/api/products/${params.id}`);
+    const res = await axios.get(`http://localhost:3000/api/orders/${params.id}`);
   
     return {
       props: {
-        product: res.data
+        order: res.data
       }
     }
 };
 
-export default product;
+export default order;

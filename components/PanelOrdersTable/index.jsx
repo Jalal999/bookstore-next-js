@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Alert } from '@mui/material';
 import { OrdersContent } from './OrdersTableStyle';
 import Link from 'next/link'
 import axios from 'axios';
@@ -15,9 +15,11 @@ export const PanelOrdersTable = ({ data }) => {
         } catch(err) {
             console.log(err)
         }
+        window.location.reload()
     }
   return (
     <OrdersContent>
+      {productDeleted && <Alert severity="success">This is a success alert — check it out!</Alert>}
         <h1>Orders</h1>
         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -44,15 +46,15 @@ export const PanelOrdersTable = ({ data }) => {
                 <TableCell align="right">{data.email}</TableCell>
                 <TableCell align="right">{data.total}</TableCell>
                 <TableCell align="right">{data.createdAt}</TableCell>
-                <TableCell align="right">{orderState}</TableCell>
-                <TableCell>
+                <TableCell align="right">{data.status}</TableCell>
+                <TableCell align='right'>
                     <Button variant="contained">
                       <Link href={`/admin/orders/${data._id}`}>
                         View
                       </Link>
                     </Button>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align='left'>
                     <Button variant="outlined" color="error" onClick={()=>handleDelete(data._id)}>
                       Delete
                     </Button>
