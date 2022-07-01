@@ -31,55 +31,58 @@ const AddProductForm = ({ showDialog, setAlert }) => {
             console.log(newProduct)
             const baseUrl = process.env.BASE_URL
             await axios.post(`http://localhost:3000/api/products`, newProduct);
-        } catch(err) {
+        } catch (err) {
             console.log(err)
             passAlert(false)
         }
         setOpen(false);
         setAlert(true);
-      }
+    }
 
-      const passAlert = (isSuccess) => {
+    const passAlert = (isSuccess) => {
         setAlert(isSuccess)
-      }
+    }
 
     return (
-            <Dialog onClose={handleClose} open={open}>
-                <FormLayout>
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                        <InputField>
-                            <TextField
+        <Dialog onClose={handleClose} open={open}>
+            <FormLayout>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <InputField>
+                        <TextField
                             style={{ width: "300px" }}
                             {...register("img", {
-                                required: "Required"}
+                                required: "Required"
+                            }
                             )}
                             type="file"
                             variant="outlined"
                             error={!!errors?.img}
                             helperText={errors?.img ? errors.img.message : null}
                             onChange={(e) => setFile(e.target.files[0])}
-                            />
-                        </InputField>
-                        <br />
-                        <InputField>
-                            <TextField
+                        />
+                    </InputField>
+                    <br />
+                    <InputField>
+                        <TextField
                             style={{ width: "300px" }}
                             label="Product Name"
                             {...register("title", {
-                                required: "Required"}
+                                required: "Required"
+                            }
                             )}
                             type="text"
                             variant="outlined"
                             error={!!errors?.title}
                             helperText={errors?.title ? errors.title.message : null}
-                            />
-                        </InputField>
-                        <br />
-                        <InputField>
-                            <TextField
+                        />
+                    </InputField>
+                    <br />
+                    <InputField>
+                        <TextField
                             label="Description"
                             {...register("desc", {
-                                required: "Required"}
+                                required: "Required"
+                            }
                             )}
                             style={{ width: "300px" }}
                             type="text"
@@ -87,45 +90,47 @@ const AddProductForm = ({ showDialog, setAlert }) => {
                             multiline
                             error={!!errors?.desc}
                             helperText={errors?.desc ? errors.desc.message : null}
-                            />
-                        </InputField>
-                        <br />
-                        <InputField>
-                            <TextField
+                        />
+                    </InputField>
+                    <br />
+                    <InputField>
+                        <TextField
                             label="Price"
                             style={{ width: "300px" }}
                             {...register("price", {
-                                required: "Required"}
+                                required: "Required"
+                            }
                             )}
                             type="number"
                             variant="outlined"
                             error={!!errors?.price}
                             helperText={errors?.price ? errors.price.message : null}
-                            />
-                        </InputField>
-                        <br />
-                        <InputField>
-                            <TextField
+                        />
+                    </InputField>
+                    <br />
+                    <InputField>
+                        <TextField
                             label="Stock Amount"
                             {...register("stock", {
-                                required: "Required"}
+                                required: "Required"
+                            }
                             )}
                             style={{ width: "300px" }}
                             type="number"
                             variant="outlined"
                             error={!!errors?.stock}
                             helperText={errors?.stock ? errors.stock.message : null}
-                            />
-                        </InputField>
-                        <br />
-                        <UpdateBtn variant="contained" color="primary" type="submit">
-                            Add Product
-                        </UpdateBtn>
-                        <br />
-                    </Form>
+                        />
+                    </InputField>
                     <br />
-                </FormLayout>
-            </Dialog>
+                    <UpdateBtn variant="contained" color="primary" type="submit">
+                        Add Product
+                    </UpdateBtn>
+                    <br />
+                </Form>
+                <br />
+            </FormLayout>
+        </Dialog>
     )
 }
 

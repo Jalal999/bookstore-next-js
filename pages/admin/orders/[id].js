@@ -7,9 +7,9 @@ import UpdateOrderForm from "../../../components/Forms/UpdateOrderForm";
 const order = ({ order }) => {
 
     return (
-        <Box>
+        <>
             <UpdateOrderForm order={order}/>
-        </Box>
+        </>
     )
 }
 

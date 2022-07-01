@@ -4,43 +4,68 @@ import { OrdersContent } from './OrdersTableStyle';
 import Link from 'next/link'
 import axios from 'axios';
 import { useState } from 'react';
+import ConfirmDialog from '../ConfirmDialog';
 
 
 export const PanelOrdersTable = ({ data }) => {
-    const [orderState, setOrderState] = useState('pending');
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("")
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("")
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [deletingOrderID, setDeletingOrderID] = useState("");
 
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:3000/api/orders/${id}`);
-        } catch(err) {
-            console.log(err)
-        }
-        window.location.reload()
+  const handleDelete = async (id) => {
+    setConfirmDialog(false);
+    try {
+      await axios.delete(`http://localhost:3000/api/orders/5`);
+    } catch (err) {
+      console.log(err)
+      if (!!err) {
+        setErrorAlert(true);
+        setErrorMsg("There is an error while deleting product.")
+      }
     }
+  }
+
+  const handleClick = (id) => {
+    setConfirmDialog(true);
+    setDeletingOrderID(id);
+  }
+
+  const confirmAction = (isConfirm) => {
+    if (isConfirm) {
+      handleDelete(deletingOrderID);
+    } else {
+      setConfirmDialog(false)
+    }
+  }
+
   return (
     <OrdersContent>
-      {productDeleted && <Alert severity="success">This is a success alert — check it out!</Alert>}
-        <h1>Orders</h1>
-        <TableContainer component={Paper}>
+      {errorAlert && <Alert severity="error">{errorMsg}</Alert>}
+      {successAlert && <Alert severity="error">{successMsg}</Alert>}
+      <h1>Orders</h1>
+      <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
+          <TableHead>
             <TableRow>
-                <TableCell>Order ID</TableCell>
-                <TableCell align="right">Customer</TableCell>
-                <TableCell align="right">Email</TableCell>
-                <TableCell align="right">Total Cost</TableCell>
-                <TableCell align="right">Ordered At</TableCell>
-                <TableCell align='right'>Order Status</TableCell>
+              <TableCell>Order ID</TableCell>
+              <TableCell align="right">Customer</TableCell>
+              <TableCell align="right">Email</TableCell>
+              <TableCell align="right">Total Cost</TableCell>
+              <TableCell align="right">Ordered At</TableCell>
+              <TableCell align='right'>Order Status</TableCell>
             </TableRow>
-            </TableHead>
-            <TableBody>
+          </TableHead>
+          <TableBody>
             {data.map((data) => (
-                <TableRow
+              <TableRow
                 key={data._id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
+              >
                 <TableCell component="th" scope="row">
-                    {data._id.slice(0, 5)}...
+                  {data._id.slice(0, 5)}...
                 </TableCell>
                 <TableCell align="right">{data.customer}</TableCell>
                 <TableCell align="right">{data.email}</TableCell>
@@ -48,22 +73,23 @@ export const PanelOrdersTable = ({ data }) => {
                 <TableCell align="right">{data.createdAt}</TableCell>
                 <TableCell align="right">{data.status}</TableCell>
                 <TableCell align='right'>
-                    <Button variant="contained">
-                      <Link href={`/admin/orders/${data._id}`}>
-                        View
-                      </Link>
-                    </Button>
-                  </TableCell>
-                  <TableCell align='left'>
-                    <Button variant="outlined" color="error" onClick={()=>handleDelete(data._id)}>
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                  <Button variant="contained">
+                    <Link href={`/admin/orders/${data._id}`}>
+                      View
+                    </Link>
+                  </Button>
+                </TableCell>
+                <TableCell align='left'>
+                  <Button variant="contained" color="error" onClick={() => handleClick(data._id)}>
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-            </TableBody>
+          </TableBody>
         </Table>
-        </TableContainer>
+      </TableContainer>
+      {confirmDialog && <ConfirmDialog question={'Do you want to delete order?'} showDialog={confirmDialog} confirmAction={confirmAction} />}
     </OrdersContent>
   );
 }

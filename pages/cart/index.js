@@ -22,7 +22,7 @@ const Index = () => {
                     <div>
                         <Typography mb={0} variant="h5">Total cost: </Typography>
                         <Typography mt={0}>${cart.total}</Typography>
-                        <CheckoutBtn variant="contained"><Link href='/checkout'>Checkout</Link></CheckoutBtn>
+                        <CheckoutBtn variant="contained"><Link href='/checkout' passHref>Checkout</Link></CheckoutBtn>
                     </div>
                 }
             </CartDesc>

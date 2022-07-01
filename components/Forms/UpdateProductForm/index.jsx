@@ -21,12 +21,12 @@ const UpdateProductForm = ({ product }) => {
     const amount = data.stock;
 
     try {
-        const updatedProduct = { title, description, img, price, amount };
-        console.log(updatedProduct)
-        const baseUrl = process.env.BASE_URL
-        await axios.put(`http://localhost:3000/api/products/${product._id}`, updatedProduct);
-    } catch(err) {
-        console.log(err)
+      const updatedProduct = { title, description, img, price, amount };
+      console.log(updatedProduct)
+      const baseUrl = process.env.BASE_URL
+      await axios.put(`http://localhost:3000/api/products/${product._id}`, updatedProduct);
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -35,51 +35,51 @@ const UpdateProductForm = ({ product }) => {
       <img width='200px' height='300px' src={product.img} />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputField>
-            <TextField
+          <TextField
             disabled
             label="Product ID"
             style={{ width: "300px" }}
             type="text"
             variant="outlined"
             value={product._id}
-            />
+          />
         </InputField>
         <br />
         <InputField>
-            <TextField
+          <TextField
             style={{ width: "300px" }}
             label="Product Name"
             {...register("title")}
             type="text"
             variant="outlined"
             defaultValue={product.title}
-            />
+          />
         </InputField>
         <br />
         <InputField>
-            <TextField
+          <TextField
             label="Price"
             style={{ width: "300px" }}
             {...register("price")}
             type="number"
             variant="outlined"
             defaultValue={product.price}
-            />
+          />
         </InputField>
         <br />
         <InputField>
-            <TextField
+          <TextField
             label="Stock Amount"
             {...register("stock")}
             style={{ width: "300px" }}
             type="number"
             variant="outlined"
             defaultValue={product.amount}
-            />
+          />
         </InputField>
         <br />
         <InputField>
-            <TextField
+          <TextField
             label="Description"
             {...register("desc")}
             style={{ width: "300px" }}
@@ -87,7 +87,7 @@ const UpdateProductForm = ({ product }) => {
             variant="outlined"
             multiline
             defaultValue={product.description}
-            />
+          />
         </InputField>
         <br />
         <UpdateBtn variant="contained" color="primary" type="submit">
