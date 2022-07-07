@@ -6,7 +6,9 @@ const Layout = ({ children }) => {
         <>
             <Meta />
             <Navbar />
-            {children}
+            <div style={{marginTop: "80px"}}>
+                {children}
+            </div>
         </>
     )
 }

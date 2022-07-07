@@ -1,5 +1,5 @@
 import dbConnect from '../../../util/mongo';
-import Product from '../../../models/Product';
+import Order from '../../../models/Order';
 
 export default async function handler(req,res) {
     const { method, query: { id } } = req;
@@ -8,8 +8,8 @@ export default async function handler(req,res) {
 
     if(method === "GET") {
         try{
-            const product = await Product.findById(id)
-            res.status(200).json(product)
+            const order = await Order.findById(id)
+            res.status(200).json(order)
         }catch(err){
             res.status(500).json(err)
         }
@@ -18,9 +18,9 @@ export default async function handler(req,res) {
     if(method === "PUT") {
         console.log(req.body)
         try{
-            const { title, desc, img, price, amount } = req.body;
-            const product = await Product.findOneAndUpdate({_id: id}, req.body)
-            res.status(201).json(product)
+            const { customer, email, total, status } = req.body;
+            const order = await Order.findOneAndUpdate({_id: id}, req.body)
+            res.status(201).json(order)
         }catch(err){
             res.status(500).json(err)
         }
@@ -28,8 +28,8 @@ export default async function handler(req,res) {
 
     if(method === "DELETE") {
         try{
-            await Product.findByIdAndDelete(id)
-            res.status(201).json("The product is deleted...")
+            await Order.findByIdAndDelete(id)
+            res.status(201).json("The order is deleted...")
         }catch(err){
             res.status(500).json(err)
         }
