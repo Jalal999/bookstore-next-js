@@ -14,3 +14,8 @@ export const Input = styled(TextField)`
 export const LoginBtn = styled(Button)`
     width: 100%;
 `
+
+export const FormHeading = styled.h2`
+    text-align: center;
+    margin-bottom: 0;
+`

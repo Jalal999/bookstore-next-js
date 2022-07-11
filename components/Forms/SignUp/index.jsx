@@ -75,7 +75,11 @@ const SingUpForm = () => {
                     autoFocus
                     placeholder="Password"
                     {...register("password", {
-                        required: "Required"
+                        required: "Required",
+                        pattern: {
+                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/i,
+                            message: "Password should be 6-8 characters containing at least one uppercase letter, \none lowercase letter, \none number \nand one special character..."
+                        }
                     })
                     }
                     error={!!errors?.password}

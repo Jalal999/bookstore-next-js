@@ -4,7 +4,7 @@ import { UsersContent, UsersTableHeader } from './UsersTableStyle';
 import Link from 'next/link'
 import axios from 'axios';
 import { useState } from 'react';
-import AddProductForm from '../Forms/AddProductForm';
+import AddUserForm from '../Forms/AddUserForm';
 import ConfirmDialog from '../ConfirmDialog';
 
 export const PanelUsersTable = ({ data }) => {
@@ -18,7 +18,7 @@ export const PanelUsersTable = ({ data }) => {
   const handleDelete = async (id) => {
     setConfirmDialog(false);
     try {
-      await axios.delete(`http://localhost:3000/api/user/5`);
+      await axios.delete(`http://localhost:3000/api/user/${id}`);
     } catch (err) {
       console.log(err)
       if (!!err) {
@@ -86,7 +86,7 @@ export const PanelUsersTable = ({ data }) => {
                 <TableCell align="right">{data.address.slice(0, 20)}...</TableCell>
                 <TableCell align='right'>
                   <Button variant="contained">
-                    <Link href={`/user/${data._id}`}>
+                    <Link href={`/admin/users/${data._id}`}>
                       View
                     </Link>
                   </Button>
@@ -101,7 +101,7 @@ export const PanelUsersTable = ({ data }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {showAddForm && <AddProductForm showDialog={showAddForm} setAlert={setAlert} />}
+      {showAddForm && <AddUserForm showDialog={showAddForm} setAlert={setAlert} />}
       {confirmDialog && <ConfirmDialog question={'Do you want to delete user?'} showDialog={confirmDialog} confirmAction={confirmAction} />}
     </UsersContent>
   );
