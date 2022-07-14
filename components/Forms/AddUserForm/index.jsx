@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { Dialog, TextField } from "@mui/material";
+import { Dialog, TextField, Alert } from "@mui/material";
 import { FormLayout, InputField, Form, AddBtn } from "./AddUserFormStyle";
 import { useForm } from "react-hook-form";
-import axios from 'axios'
+import { signup } from "../../../util/common";
 
 
 const AddUserForm = ({ showDialog, setAlert }) => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
     const [open, setOpen] = useState(showDialog);
+    const [msgType, setMsgType] = useState(null);
+    const [alertMsg, setAlertMsg] = useState(null);
+
 
     const handleClose = () => {
         setOpen(false)
@@ -19,25 +22,23 @@ const AddUserForm = ({ showDialog, setAlert }) => {
         const email = data.email;
         const password = data.password;
         const address = data.address;
-        try {
-            const newUser = { name, email, password, address };
-            console.log(newUser)
-            const baseUrl = process.env.BASE_URL
-            await axios.post(`http://localhost:3000/api/user`, newUser);
-        } catch (err) {
-            console.log(err)
-            passAlert(false)
+        // const status = data.status;
+        const newUser = { name, email, password, address };
+        const result = await signup(newUser)
+
+        if (result.data.hasError) {
+            setMsgType('error');
+            setAlertMsg("There is already registered user with " + result.data.errorMessage.keyValue.email);
+        } else {
+            setOpen(false);
+            setAlert(true);
         }
-        setOpen(false);
-        setAlert(true);
     }
 
-    const passAlert = (isSuccess) => {
-        setAlert(isSuccess)
-    }
 
     return (
         <Dialog onClose={handleClose} open={open} csx={{ display: 'flex' }}>
+            {msgType === 'error' && <Alert severity="error">{alertMsg}</Alert>}
             <FormLayout>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <InputField>
@@ -45,7 +46,11 @@ const AddUserForm = ({ showDialog, setAlert }) => {
                             style={{ width: "200px" }}
                             label="User Name"
                             {...register("name", {
-                                required: "Required"
+                                required: "Required",
+                                pattern: {
+                                    value: /^[A-Za-z]+(\s+[A-Za-z]+)+$/,
+                                    message: "Invalid Name and Surname(at least TWO words)!",
+                                }
                             }
                             )}
                             type="text"
@@ -59,7 +64,11 @@ const AddUserForm = ({ showDialog, setAlert }) => {
                         <TextField
                             label="Email"
                             {...register("email", {
-                                required: "Required"
+                                required: "Required",
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Invalid email address",
+                                }
                             }
                             )}
                             style={{ width: "200px" }}
@@ -76,7 +85,11 @@ const AddUserForm = ({ showDialog, setAlert }) => {
                             label="Password"
                             style={{ width: "200px" }}
                             {...register("password", {
-                                required: "Required"
+                                required: "Required",
+                                pattern: {
+                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,8}$/i,
+                                    message: "Password should be 6-8 characters containing at least one uppercase letter, \none lowercase letter, \none number \nand one special character..."
+                                }
                             }
                             )}
                             variant="outlined"

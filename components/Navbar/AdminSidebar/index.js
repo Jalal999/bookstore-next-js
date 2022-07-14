@@ -1,7 +1,5 @@
 import Link from 'next/link'
-import { SideLinks, SideLink, SidebarDiv } from './SidebarStyle';
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, InboxIcon, MailIcon, ListItemText } from '@mui/material';
-import { useState } from 'react';
+import { List, ListItem, ListItemButton } from '@mui/material';
 
 
 const drawerWidth = 200;

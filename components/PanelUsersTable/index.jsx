@@ -15,6 +15,7 @@ export const PanelUsersTable = ({ data }) => {
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [deletingProductID, setDeletingProductID] = useState("");
 
+  console.log(data)
   const handleDelete = async (id) => {
     setConfirmDialog(false);
     try {
@@ -69,6 +70,7 @@ export const PanelUsersTable = ({ data }) => {
               <TableCell align="right">User Email</TableCell>
               <TableCell align="right">User Password</TableCell>
               <TableCell align="right">User Address</TableCell>
+              <TableCell align="right">User Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -84,6 +86,7 @@ export const PanelUsersTable = ({ data }) => {
                 <TableCell align="right">{data.email}</TableCell>
                 <TableCell align="right">{data.password.slice(0, 10)}...</TableCell>
                 <TableCell align="right">{data.address.slice(0, 20)}...</TableCell>
+                <TableCell align="right">{data.status}</TableCell>
                 <TableCell align='right'>
                   <Button variant="contained">
                     <Link href={`/admin/users/${data._id}`}>

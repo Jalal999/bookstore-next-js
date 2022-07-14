@@ -23,6 +23,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         maxlength: 100
+    },
+    status: {
+        type: String,
+        required: true,
+        default: 'customer'
     }
 }, {
     timestamps: true

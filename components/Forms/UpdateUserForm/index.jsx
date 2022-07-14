@@ -17,9 +17,10 @@ const UpdateUserForm = ({ user }) => {
         const email = data.email;
         const password = data.password;
         const address = data.address;
+        const status = data.status
 
         try {
-            const updatedUser = { name, email, password, address };
+            const updatedUser = { name, email, password, address, status };
             console.log(updatedUser)
             const baseUrl = process.env.BASE_URL
             await axios.put(`http://localhost:3000/api/user/${user._id}`, updatedUser);
@@ -83,6 +84,17 @@ const UpdateUserForm = ({ user }) => {
                         variant="outlined"
                         multiline
                         defaultValue={user.address}
+                    />
+                </InputField>
+                <br />
+                <InputField>
+                    <TextField
+                        label="Status"
+                        {...register("status")}
+                        style={{ width: "300px" }}
+                        type="text"
+                        variant="outlined"
+                        defaultValue={user.status}
                     />
                 </InputField>
                 <br />

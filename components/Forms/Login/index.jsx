@@ -5,23 +5,35 @@ import { Alert, Container } from "@mui/material";
 import { getSession, signIn } from "next-auth/react"
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { authConstants } from "../../../redux/userSlice";
+import { useDispatch } from "react-redux";
+import { LOGIN_SUCCESS } from "../../../redux/userSlice";
 
 const LoginForm = () => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
     const router = useRouter();
     const [errMsg, setErrMsg] = useState(null);
+    const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
         // console.log(data)
         const email = data.email;
         const password = data.password;
         const payload = { email, password };
-
+        dispatch({ type: authConstants.LOGIN_REQUEST })
         const result = await signIn("credentials", { ...payload, redirect: false });
         console.log(result)
+
         if (!result.error) {
+            const session = await getSession();
+            console.log('session: ', session)
+            dispatch(LOGIN_SUCCESS(session.user))
             router.replace('/');
         } else {
+            dispatch({
+                type: authConstants.LOGIN_FAILURE,
+                payload: result.error
+            })
             setErrMsg(result.error)
         }
         const session = await getSession();
