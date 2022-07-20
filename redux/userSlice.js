@@ -11,7 +11,7 @@ const userSlice = createSlice({
     initialState: {
         user: {
             authenticated: false,
-            authenticating: false,
+            authenticating: true,
             error: null,
             name: null,
             email: null,
@@ -33,13 +33,9 @@ const userSlice = createSlice({
             state.user.status = action.payload.status;
         },
         LOGIN_FAILURE: (state, action) => {
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    error: action.payload
-                }
-            }
+            state.user.authenticating = false;
+            state.user.authenticated = false;
+            state.user.error = action.payload
         },
 
     },

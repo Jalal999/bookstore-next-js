@@ -7,9 +7,11 @@ import { useState } from "react";
 import OrderForm from "../../components/Forms/OrderForm";
 
 
-const Index = () => {
+const Index = ({ user }) => {
     const cart = useSelector((state)=>state.cart);
     const [showOrderForm, setShowOrderForm] = useState(false)
+    const [userLoggedIn, setUserLoggedIn] = useState(null);
+    // setUserLoggedIn({user});
 
     return (
         <div>
@@ -28,5 +30,35 @@ const Index = () => {
         </div>
     )
 }
+
+// export const getServerSideProps = async (context) => {
+//     const baseUrl = process.env.BASE_URL
+
+//     try {
+//         const session = await getSession({ req: context.req })
+//         if (session && session.user.status === 'customer') {
+
+//             return {
+//                 props: {
+//                     user: session.user
+//                 }
+//             }
+//         } else {
+//             return {
+//                 redirect: {
+//                     destination: '/login',
+//                     permanent: false
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         return {
+//             redirect: {
+//                 destination: '/login',
+//                 permanent: false
+//             }
+//         }
+//     }
+// };
 
 export default Index;

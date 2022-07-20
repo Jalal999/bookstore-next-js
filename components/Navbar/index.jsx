@@ -44,7 +44,7 @@ const Navbar = () => {
                 <Logo>
                     {(router.route !== '/' || (router.route !== '' && router.route !== '/')) &&
                         <ArrowBackIcon onClick={() => router.back()} />}
-                    <Link href='/'>
+                    <Link href='/' passHref>
                         BookStore
                     </Link>
                 </Logo>

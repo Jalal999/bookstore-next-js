@@ -16,7 +16,7 @@ export const responseHandler = (data, res, code = 200) => {
 
 export const validateAllOnce = (fields) => {
     for (let key in fields) {
-        if(fields[key].trim() === "") {
+        if (fields[key].trim() === "") {
             throw `${key} required`;
         }
     }
@@ -26,7 +26,16 @@ export const signup = async (newUserData) => {
     try {
         const res = await axios.post('http://localhost:3000/api/user/signup', newUserData);
         return res;
-    } catch(err) {
+    } catch (err) {
+        return err.response;
+    }
+}
+
+export const getUserOrders = async (payload) => {
+    try {
+        const result = await axios.post("http://localhost:3000/api/user/orders", payload);
+        return result.data;
+    } catch (err) {
         return err.response;
     }
 }

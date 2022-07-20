@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+const Schema = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -28,7 +29,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'customer'
-    }
+    },
+    orders: [{
+        type: Schema.Types.ObjectId,
+        ref: "Order"
+    }]
 }, {
     timestamps: true
 });

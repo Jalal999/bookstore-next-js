@@ -37,7 +37,7 @@ const LoginForm = () => {
             setErrMsg(result.error)
         }
         const session = await getSession();
-        console.log({ session })
+        console.log('login', { session })
     }
 
     return (

@@ -15,17 +15,20 @@ const OrderForm = () => {
 
     const onSubmit = async (data) => {
         console.log(data)
-        const customer = data.nameSurname;
         const email = data.email;
         const total = cart.total;
+        const address = data.address;
 
+        const res = await axios.get(`http://localhost:3000/api/user`);
+        const customer = res.data.filter(data => data.email === email)[0]._id;
         try {
-            const newOrder = { customer, email, total };
+            const newOrder = { customer, email, total, address };
             console.log(newOrder)
             const baseUrl = process.env.BASE_URL
             await axios.post(`http://localhost:3000/api/orders`, newOrder);
+
         } catch(err) {
-            console.log(err)
+            console.log('Wrong order', err)
         }
         setShowDialog(true)
         dispatch(reset());
@@ -83,6 +86,18 @@ const OrderForm = () => {
                     }
                     error={!!errors?.nameSurname}
                     helperText={errors?.nameSurname ? errors.nameSurname.message : null}
+                />
+                <Input
+                    variant="outlined"
+                    fullWidth
+                    autoComplete="address"
+                    autoFocus
+                    placeholder="Address"
+                    {...register("address", { 
+                        required: "Required"})
+                    }
+                    error={!!errors?.address}
+                    helperText={errors?.address ? errors.address.message : null}
                 />
                 <OrderBtn variant="contained" color="primary" type="submit">Order</OrderBtn>
             </Form>

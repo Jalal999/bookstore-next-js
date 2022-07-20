@@ -1,19 +1,33 @@
+import UserProfile from "../../../components/UserProfile";
+import axios from 'axios'
 import { getSession } from "next-auth/react"
 
+const user = ({ user }) => {
+
+    return (
+        <>
+            <UserProfile user={user} />
+        </>
+    )
+}
+
 export const getServerSideProps = async (context) => {
+    const baseUrl = process.env.BASE_URL
+
     try {
         const session = await getSession({ req: context.req })
-        console.log("admin", { session })
-        if (session && session.user.status === 'Admin') {
+        if (session && session.user.status === 'customer') {
+            const res = await axios.get(`http://localhost:3000/api/user/${context.params.id}`);
+
             return {
                 props: {
-                    user: session.user
+                    user: res.data
                 }
             }
         } else {
             return {
                 redirect: {
-                    destination: '/',
+                    destination: '/login',
                     permanent: false
                 }
             }
@@ -26,15 +40,6 @@ export const getServerSideProps = async (context) => {
             }
         }
     }
-}
+};
 
-const Index = ({ user }) => {
-    return (
-        <>
-            <h1>Welcome, {user.name}</h1>
-            <p>Dashboard Content</p>
-        </>
-    )
-}
-
-export default Index;
+export default user;
