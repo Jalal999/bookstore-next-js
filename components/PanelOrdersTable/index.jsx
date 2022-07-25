@@ -5,26 +5,25 @@ import Link from 'next/link'
 import axios from 'axios';
 import { useState } from 'react';
 import ConfirmDialog from '../ConfirmDialog';
+import { deleteItem } from '../../util/common';
 
 
 export const PanelOrdersTable = ({ data }) => {
-  const [errorAlert, setErrorAlert] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("")
-  const [successAlert, setSuccessAlert] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("")
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [successMsg, setSuccessMsg] = useState(null)
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [deletingOrderID, setDeletingOrderID] = useState("");
 
   const handleDelete = async (id) => {
     setConfirmDialog(false);
-    try {
-      await axios.delete(`http://localhost:3000/api/orders/5`);
-    } catch (err) {
-      console.log(err)
-      if (!!err) {
-        setErrorAlert(true);
-        setErrorMsg("There is an error while deleting product.")
-      }
+
+    const result = await deleteItem('orders', id);
+    if (result.data.hasError) {
+      setSuccessMsg(null)
+      setErrorMsg("There is an error while deleting product.")
+    } else {
+      setErrorMsg(null)
+      setSuccessMsg("The order is deleted successfully");
     }
   }
 
@@ -43,8 +42,8 @@ export const PanelOrdersTable = ({ data }) => {
 
   return (
     <OrdersContent>
-      {errorAlert && <Alert severity="error">{errorMsg}</Alert>}
-      {successAlert && <Alert severity="error">{successMsg}</Alert>}
+      {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+      {successMsg && <Alert severity="success">{successMsg}</Alert>}
       <h1>Orders</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

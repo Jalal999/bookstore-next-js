@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 
 export const Form = styled.form`
     padding-top: 20px;
@@ -15,7 +15,7 @@ export const LoginBtn = styled(Button)`
     width: 100%;
 `
 
-export const FormHeading = styled.h2`
+export const FormHeading = styled(Typography)`
     text-align: center;
     margin-bottom: 0;
 `

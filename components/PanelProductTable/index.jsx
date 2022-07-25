@@ -6,25 +6,25 @@ import axios from 'axios';
 import { useState } from 'react';
 import AddProductForm from '../Forms/AddProductForm';
 import ConfirmDialog from '../ConfirmDialog';
+import { deleteItem } from '../../util/common';
 
 export const PanelProductTable = ({ data }) => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [errorAlert, setErrorAlert] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("")
-  const [successMsg, setSuccessMsg] = useState("")
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [successMsg, setSuccessMsg] = useState(null)
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [deletingProductID, setDeletingProductID] = useState("");
 
   const handleDelete = async (id) => {
     setConfirmDialog(false);
-    try {
-      await axios.delete(`http://localhost:3000/api/products/5`);
-    } catch (err) {
-      console.log(err)
-      if (!!err) {
-        setErrorAlert(true);
-        setErrorMsg("There is an error while deleting product.")
-      }
+
+    const result = await deleteItem('products', id);
+    if (result.data.hasError) {
+      setSuccessMsg(null)
+      setErrorMsg("There is an error while deleting product.")
+    } else {
+      setErrorMsg(null)
+      setSuccessMsg("The product is deleted successfully");
     }
   }
 
@@ -54,8 +54,8 @@ export const PanelProductTable = ({ data }) => {
 
   return (
     <ProductsContent>
-      {errorAlert && <Alert severity="error">{errorMsg}</Alert>}
-      {successMsg !== "" && <Alert severity="success">{successMsg}</Alert>}
+      {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+      {successMsg && <Alert severity="success">{successMsg}</Alert>}
       <ProductsTableHeader>
         <h1>Products</h1>
         <Button variant="outlined" onClick={() => setShowAddForm(true)}>Add Product</Button>

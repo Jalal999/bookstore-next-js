@@ -14,6 +14,8 @@ const LoginForm = () => {
     const router = useRouter();
     const [errMsg, setErrMsg] = useState(null);
     const dispatch = useDispatch();
+    const query = router.query;
+    const name = query.name;
 
     const onSubmit = async (data) => {
         // console.log(data)
@@ -28,7 +30,13 @@ const LoginForm = () => {
             const session = await getSession();
             console.log('session: ', session)
             dispatch(LOGIN_SUCCESS(session.user))
-            router.replace('/');
+            console.log('query', query.fromCheckout)
+            if(query.fromCheckout === "") {
+                console.log("from checkout")
+                router.replace('/checkout')
+            } else {
+                router.replace('/');
+            }
         } else {
             dispatch({
                 type: authConstants.LOGIN_FAILURE,
@@ -42,7 +50,7 @@ const LoginForm = () => {
 
     return (
         <Container maxWidth="xs">
-            <FormHeading>Log in...</FormHeading>
+            <FormHeading variant="h5" component="div">Log in...</FormHeading>
             {errMsg && <Alert severity="error">{errMsg}</Alert>}
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Input
@@ -77,6 +85,7 @@ const LoginForm = () => {
                     helperText={errors?.password ? errors.password.message : null}
                 />
                 <LoginBtn variant="contained" color="primary" type="submit">Login</LoginBtn>
+                <p>You dont have an account? <a href="/signup"><b>Register now!</b></a></p>
             </Form>
         </Container>
     )

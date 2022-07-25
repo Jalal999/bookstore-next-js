@@ -39,3 +39,32 @@ export const getUserOrders = async (payload) => {
         return err.response;
     }
 }
+
+export const postOrder = async(payload) => {
+    try {
+        const baseUrl = process.env.BASE_URL
+        await axios.post(`http://localhost:3000/api/orders`, payload);
+
+    } catch(err) {
+        console.log('Wrong order', err)
+    }
+}
+
+export const updateItem = async (content, payload) => {
+    try {
+        const baseUrl = process.env.BASE_URL
+        const res = await axios.put(`http://localhost:3000/api/${content}/${payload.id}`, payload);
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+}
+
+export const deleteItem = async (content, id) => {
+    try {
+        const res = await axios.delete(`http://localhost:3000/api/${content}/${id}`);
+        return res;
+    } catch (err) {
+        return err.response
+    }
+}

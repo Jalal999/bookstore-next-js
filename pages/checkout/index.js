@@ -5,12 +5,21 @@ import { Checkout, OrderDesc, BreakLine } from "../../components/OrderItem/Order
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import OrderForm from "../../components/Forms/OrderForm";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 
-const Index = ({ user }) => {
-    const cart = useSelector((state)=>state.cart);
+const Index = () => {
+    const cart = useSelector((state) => state.cart);
     const [showOrderForm, setShowOrderForm] = useState(false)
     const [userLoggedIn, setUserLoggedIn] = useState(null);
+    const userState = useSelector((state) => state.user);
+    const user = userState.user;
+
+    // if (user && user.authenticated) {
+    //     router.replace('/');
+    //     return null;
+    // }
     // setUserLoggedIn({user});
 
     return (
@@ -25,7 +34,17 @@ const Index = ({ user }) => {
                 </OrderDesc>
                 <BreakLine />
                 {showOrderForm && <OrderForm />}
-                {!showOrderForm && <CheckoutBtn variant="contained" onClick={()=>setShowOrderForm(true)}>Checkout</CheckoutBtn>}
+                {!user.authenticated ?
+                    <Link
+                        href={{
+                            pathname: "/login",
+                            query: "fromCheckout",
+                        }}
+                    >
+                        Login to complete your order!
+                    </Link>
+                    :
+                    !showOrderForm && <CheckoutBtn variant="contained" onClick={() => setShowOrderForm(true)}>Checkout</CheckoutBtn>}
             </Checkout>
         </div>
     )

@@ -6,26 +6,26 @@ import axios from 'axios';
 import { useState } from 'react';
 import AddUserForm from '../Forms/AddUserForm';
 import ConfirmDialog from '../ConfirmDialog';
+import { deleteItem } from '../../util/common';
 
 export const PanelUsersTable = ({ data }) => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [errorAlert, setErrorAlert] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("")
-  const [successMsg, setSuccessMsg] = useState("")
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [successMsg, setSuccessMsg] = useState(null)
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [deletingProductID, setDeletingProductID] = useState("");
 
   console.log(data)
   const handleDelete = async (id) => {
     setConfirmDialog(false);
-    try {
-      await axios.delete(`http://localhost:3000/api/user/${id}`);
-    } catch (err) {
-      console.log(err)
-      if (!!err) {
-        setErrorAlert(true);
-        setErrorMsg("There is an error while deleting user.")
-      }
+
+    const result = await deleteItem('user', id);
+    if (result.data.hasError) {
+      setSuccessMsg(null)
+      setErrorMsg("There is an error while deleting user.")
+    } else {
+      setErrorMsg(null);
+      setSuccessMsg("The user is deleted succesfully!")
     }
   }
 
@@ -55,8 +55,8 @@ export const PanelUsersTable = ({ data }) => {
 
   return (
     <UsersContent>
-      {errorAlert && <Alert severity="error">{errorMsg}</Alert>}
-      {successMsg !== "" && <Alert severity="success">{successMsg}</Alert>}
+      {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+      {successMsg && <Alert severity="success">{successMsg}</Alert>}
       <UsersTableHeader>
         <h1>Users</h1>
         <Button variant="outlined" onClick={() => setShowAddForm(true)}>Add User</Button>

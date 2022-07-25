@@ -7,10 +7,13 @@ const Index = () => {
     const userState = useSelector((state) => state.user);
     const user = userState.user;
     const router = useRouter();
+    const query = router.query;
 
-    if(user && user.authenticated) {
-        router.replace('/');
-        return null;
+    if(query.fromCheckout !== "") {
+        if(user && user.authenticated) {
+            router.replace('/');
+            return null;
+        }
     }
 
     return (
