@@ -1,5 +1,6 @@
 import dbConnect from '../../../util/mongo';
 import Order from '../../../models/Order';
+import User from '../../../models/User';
 
 export default async function handler(req,res) {
     const { method } = req;
@@ -8,7 +9,8 @@ export default async function handler(req,res) {
 
     if(method === "GET") {
         try{
-            const orders = await Order.find()
+            // const orders = await Order.find()
+            const orders = await Order.find({name: req.params.name}).populate("orders")
             res.status(200).json(orders)
         }catch(err){
             res.status(500).json(err)

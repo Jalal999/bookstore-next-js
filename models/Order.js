@@ -1,10 +1,11 @@
 import mongoose from "mongoose"
+const Schema = mongoose.Schema;
 
 const OrderSchema = new mongoose.Schema({
     customer: {
-        type: String,
-        required: true,
-        maxlength: 50,
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
     email: {
         type: String,
@@ -14,6 +15,10 @@ const OrderSchema = new mongoose.Schema({
     total: {
         type: Number,
         required: true,
+    },
+    address: {
+        type: String,
+        required: true
     },
     status: {
         type: String,

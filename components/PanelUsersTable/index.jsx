@@ -1,60 +1,76 @@
 import * as React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Alert } from '@mui/material';
-import { OrdersContent } from './OrdersTableStyle';
+import { UsersContent, UsersTableHeader } from './UsersTableStyle';
 import Link from 'next/link'
 import axios from 'axios';
 import { useState } from 'react';
+import AddUserForm from '../Forms/AddUserForm';
 import ConfirmDialog from '../ConfirmDialog';
 import { deleteItem } from '../../util/common';
 
-
-export const PanelOrdersTable = ({ data }) => {
+export const PanelUsersTable = ({ data }) => {
+  const [showAddForm, setShowAddForm] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null)
   const [successMsg, setSuccessMsg] = useState(null)
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [deletingOrderID, setDeletingOrderID] = useState("");
+  const [deletingProductID, setDeletingProductID] = useState("");
 
+  console.log(data)
   const handleDelete = async (id) => {
     setConfirmDialog(false);
 
-    const result = await deleteItem('orders', id);
+    const result = await deleteItem('user', id);
     if (result.data.hasError) {
       setSuccessMsg(null)
-      setErrorMsg("There is an error while deleting product.")
+      setErrorMsg("There is an error while deleting user.")
     } else {
-      setErrorMsg(null)
-      setSuccessMsg("The order is deleted successfully");
+      setErrorMsg(null);
+      setSuccessMsg("The user is deleted succesfully!")
+    }
+  }
+
+  const setAlert = (isSuccess) => {
+    if (!isSuccess) {
+      setErrorAlert(true);
+      setErrorMsg("The new user is not added...")
+    } else {
+      setSuccessMsg("The new user is added successfully!")
     }
   }
 
   const handleClick = (id) => {
+    console.log("Sdfdsf")
     setConfirmDialog(true);
-    setDeletingOrderID(id);
+    setDeletingProductID(id);
   }
 
   const confirmAction = (isConfirm) => {
     if (isConfirm) {
-      handleDelete(deletingOrderID);
+      handleDelete(deletingProductID);
     } else {
       setConfirmDialog(false)
     }
   }
 
+
   return (
-    <OrdersContent>
+    <UsersContent>
       {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
       {successMsg && <Alert severity="success">{successMsg}</Alert>}
-      <h1>Orders</h1>
+      <UsersTableHeader>
+        <h1>Users</h1>
+        <Button variant="outlined" onClick={() => setShowAddForm(true)}>Add User</Button>
+      </UsersTableHeader>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Order ID</TableCell>
-              <TableCell align="right">Customer</TableCell>
-              <TableCell align="right">Email</TableCell>
-              <TableCell align="right">Total Cost</TableCell>
-              <TableCell align="right">Ordered At</TableCell>
-              <TableCell align='right'>Order Status</TableCell>
+              <TableCell>User ID</TableCell>
+              <TableCell align="right">User Name</TableCell>
+              <TableCell align="right">User Email</TableCell>
+              <TableCell align="right">User Password</TableCell>
+              <TableCell align="right">User Address</TableCell>
+              <TableCell align="right">User Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -66,14 +82,14 @@ export const PanelOrdersTable = ({ data }) => {
                 <TableCell component="th" scope="row">
                   {data._id.slice(0, 5)}...
                 </TableCell>
-                <TableCell align="right">{data.customer}</TableCell>
+                <TableCell align="right">{data.name}</TableCell>
                 <TableCell align="right">{data.email}</TableCell>
-                <TableCell align="right">{data.total}</TableCell>
-                <TableCell align="right">{data.createdAt}</TableCell>
+                <TableCell align="right">{data.password.slice(0, 10)}...</TableCell>
+                <TableCell align="right">{data.address.slice(0, 20)}...</TableCell>
                 <TableCell align="right">{data.status}</TableCell>
                 <TableCell align='right'>
                   <Button variant="contained">
-                    <Link href={`/admin/orders/${data._id}`}>
+                    <Link href={`/admin/users/${data._id}`}>
                       View
                     </Link>
                   </Button>
@@ -88,9 +104,10 @@ export const PanelOrdersTable = ({ data }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {confirmDialog && <ConfirmDialog question={'Do you want to delete order?'} showDialog={confirmDialog} confirmAction={confirmAction} />}
-    </OrdersContent>
+      {showAddForm && <AddUserForm showDialog={showAddForm} setAlert={setAlert} />}
+      {confirmDialog && <ConfirmDialog question={'Do you want to delete user?'} showDialog={confirmDialog} confirmAction={confirmAction} />}
+    </UsersContent>
   );
 }
 
-export default PanelOrdersTable;
+export default PanelUsersTable;

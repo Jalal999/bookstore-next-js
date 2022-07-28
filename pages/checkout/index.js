@@ -5,11 +5,22 @@ import { Checkout, OrderDesc, BreakLine } from "../../components/OrderItem/Order
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import OrderForm from "../../components/Forms/OrderForm";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 
 const Index = () => {
-    const cart = useSelector((state)=>state.cart);
+    const cart = useSelector((state) => state.cart);
     const [showOrderForm, setShowOrderForm] = useState(false)
+    const [userLoggedIn, setUserLoggedIn] = useState(null);
+    const userState = useSelector((state) => state.user);
+    const user = userState.user;
+
+    // if (user && user.authenticated) {
+    //     router.replace('/');
+    //     return null;
+    // }
+    // setUserLoggedIn({user});
 
     return (
         <div>
@@ -23,10 +34,50 @@ const Index = () => {
                 </OrderDesc>
                 <BreakLine />
                 {showOrderForm && <OrderForm />}
-                {!showOrderForm && <CheckoutBtn variant="contained" onClick={()=>setShowOrderForm(true)}>Checkout</CheckoutBtn>}
+                {!user.authenticated ?
+                    <Link
+                        href={{
+                            pathname: "/login",
+                            query: "fromCheckout",
+                        }}
+                    >
+                        Login to complete your order!
+                    </Link>
+                    :
+                    !showOrderForm && <CheckoutBtn variant="contained" onClick={() => setShowOrderForm(true)}>Checkout</CheckoutBtn>}
             </Checkout>
         </div>
     )
 }
+
+// export const getServerSideProps = async (context) => {
+//     const baseUrl = process.env.BASE_URL
+
+//     try {
+//         const session = await getSession({ req: context.req })
+//         if (session && session.user.status === 'customer') {
+
+//             return {
+//                 props: {
+//                     user: session.user
+//                 }
+//             }
+//         } else {
+//             return {
+//                 redirect: {
+//                     destination: '/login',
+//                     permanent: false
+//                 }
+//             }
+//         }
+//     } catch (error) {
+//         return {
+//             redirect: {
+//                 destination: '/login',
+//                 permanent: false
+//             }
+//         }
+//     }
+// };
 
 export default Index;

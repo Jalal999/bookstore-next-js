@@ -44,12 +44,12 @@ const AddProductForm = ({ showDialog, setAlert }) => {
     }
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleClose} open={open}csx={{display: 'flex'}}>
             <FormLayout>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <InputField>
                         <TextField
-                            style={{ width: "300px" }}
+                            style={{ width: "200px" }}
                             {...register("img", {
                                 required: "Required"
                             }
@@ -64,7 +64,7 @@ const AddProductForm = ({ showDialog, setAlert }) => {
                     <br />
                     <InputField>
                         <TextField
-                            style={{ width: "300px" }}
+                            style={{ width: "200px" }}
                             label="Product Name"
                             {...register("title", {
                                 required: "Required"
@@ -84,7 +84,7 @@ const AddProductForm = ({ showDialog, setAlert }) => {
                                 required: "Required"
                             }
                             )}
-                            style={{ width: "300px" }}
+                            style={{ width: "200px" }}
                             type="text"
                             variant="outlined"
                             multiline
@@ -96,7 +96,7 @@ const AddProductForm = ({ showDialog, setAlert }) => {
                     <InputField>
                         <TextField
                             label="Price"
-                            style={{ width: "300px" }}
+                            style={{ width: "200px" }}
                             {...register("price", {
                                 required: "Required"
                             }
@@ -115,7 +115,7 @@ const AddProductForm = ({ showDialog, setAlert }) => {
                                 required: "Required"
                             }
                             )}
-                            style={{ width: "300px" }}
+                            style={{ width: "200px" }}
                             type="number"
                             variant="outlined"
                             error={!!errors?.stock}

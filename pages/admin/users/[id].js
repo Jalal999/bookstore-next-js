@@ -1,14 +1,14 @@
 import axios from "axios";
 import { Box } from "@mui/material";
-import UpdateProductForm from "../../../components/Forms/UpdateProductForm";
+import UpdateUserForm from "../../../components/Forms/UpdateUserForm";
 import { getSession } from "next-auth/react"
 
 
-const product = ({ product }) => {
+const user = ({ user }) => {
 
   return (
     <Box>
-      <UpdateProductForm product={product} />
+      <UpdateUserForm user={user} />
     </Box>
   )
 }
@@ -18,13 +18,12 @@ export const getServerSideProps = async (context) => {
 
   try {
     const session = await getSession({ req: context.req })
-    console.log("admin", { session })
     if (session && session.user.status === 'Admin') {
-      const res = await axios.get(`${baseUrl}/api/products/${context.params.id}`);
+      const res = await axios.get(`http://localhost:3000/api/user/${context.params.id}`);
 
       return {
         props: {
-          product: res.data
+          user: res.data
         }
       }
     } else {
@@ -45,4 +44,4 @@ export const getServerSideProps = async (context) => {
   }
 };
 
-export default product;
+export default user;

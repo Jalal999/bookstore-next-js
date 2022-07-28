@@ -6,33 +6,45 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from "next/router";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Sidebar from './Sidebar';
+import AdminSidebar from './AdminSidebar';
 import { useState } from 'react';
 import { SwipeableDrawer } from '@mui/material';
+import DefaultMenu from './DefaultMenu';
+import { useSelector } from 'react-redux';
+import CustomerMenu from './CustomerMenu';
 
 
 const Navbar = () => {
     const router = useRouter();
     const [state, setState] = useState(false);
+    // const [userType, setUserType] = useState(null);
+
+    const userState = useSelector((state) => state.user);
+    const authenticated = userState.user.authenticated
+    console.log(userState.user)
+    const userStatus = userState.user.status;
+    console.log(authenticated + "   userStatus: " + userStatus);
+
 
     const toggleDrawer = (open) => (event) => {
         if (
-          event &&
-          event.type === "keydown" &&
-          (event.key === "Tab" || event.key === "Shift")
+            event &&
+            event.type === "keydown" &&
+            (event.key === "Tab" || event.key === "Shift")
         ) {
-          return;
+            return;
         }
-        setState( open );
+        setState(!state);
+        open = state;
     };
 
     return (
-        <AppBar style={{position: "fixed"}}>
+        <AppBar style={{ position: "fixed" }}>
             <Nav>
                 <Logo>
                     {(router.route !== '/' || (router.route !== '' && router.route !== '/')) &&
-                    <ArrowBackIcon onClick={() => router.back()} />}
-                    <Link href='/'>
+                        <ArrowBackIcon onClick={() => router.back()} />}
+                    <Link href='/' passHref>
                         BookStore
                     </Link>
                 </Logo>
@@ -43,17 +55,22 @@ const Navbar = () => {
                         </Link>
                     </MenuLink>
                     <MenuLink>
-                        <MenuIcon color='inherit' onClick={toggleDrawer(true)}/>
+                        <MenuIcon color='inherit' onClick={toggleDrawer(true)} />
                     </MenuLink>
                 </MenuLinks>
             </Nav>
-            <SwipeableDrawer
-                open={state}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-            >
-                <Sidebar />
-            </SwipeableDrawer>
+
+            {state && !authenticated && <DefaultMenu />}
+            {state && authenticated && userStatus === 'customer' && <CustomerMenu />}
+            {state && authenticated && userStatus === 'Admin' &&
+                <SwipeableDrawer
+                    open={state}
+                    onClose={toggleDrawer(false)}
+                    onOpen={toggleDrawer(true)}
+                >
+                    <AdminSidebar />
+                </SwipeableDrawer>
+            }
         </AppBar>
     )
 }

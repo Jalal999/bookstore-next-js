@@ -6,27 +6,26 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import ThankDialog from "./ThankDialog";
 import { reset } from "../../../redux/cartSlice";
+import { postOrder } from "../../../util/common";
 
 const OrderForm = () => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
     const [showDialog, setShowDialog] = useState(false);
     const cart = useSelector((state)=>state.cart);
+    const userState = useSelector((state)=>state.user);
     const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
         console.log(data)
-        const customer = data.nameSurname;
-        const email = data.email;
+        const email = userState.user.email;
+        console.log('order form', email)
         const total = cart.total;
+        const address = data.address;
+        const res = await axios.get(`http://localhost:3000/api/user`);
+        const customer = res.data.filter(data => data.email === email)[0]._id;
 
-        try {
-            const newOrder = { customer, email, total };
-            console.log(newOrder)
-            const baseUrl = process.env.BASE_URL
-            await axios.post(`http://localhost:3000/api/orders`, newOrder);
-        } catch(err) {
-            console.log(err)
-        }
+        const newOrder = { customer, email, total, address };
+        const result = await postOrder(newOrder);
         setShowDialog(true)
         dispatch(reset());
     }
@@ -38,18 +37,10 @@ const OrderForm = () => {
                     variant="outlined"
                     fullWidth
                     autoComplete="email"
+                    disabled
                     autoFocus
                     placeholder="Email"
-                    {...register("email", { 
-                        required: "Required",
-                        pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address",
-                        }})
-                    }
-                    error={!!errors?.email}
-                    helperText={errors?.email ? errors.email.message : null}
-                    // error={email === ""}
+                    defaultValue={userState.user.email}
                 />
                 <Input
                     variant="outlined"
@@ -60,13 +51,12 @@ const OrderForm = () => {
                     {...register("confirmEmail", { 
                         required: "Required",
                         validate: {
-                            emailMatch: value => (value === getValues().email) || 'Emails do NOT match!',
+                            emailMatch: value => (value === userState.user.email) || 'Emails do NOT match!',
                         }
                     })
                     }
                     error={!!errors?.confirmEmail}
                     helperText={errors?.confirmEmail ? errors.confirmEmail.message : null}
-                    // error={email === ""}
                 />
                 <Input
                     variant="outlined"
@@ -83,6 +73,18 @@ const OrderForm = () => {
                     }
                     error={!!errors?.nameSurname}
                     helperText={errors?.nameSurname ? errors.nameSurname.message : null}
+                />
+                <Input
+                    variant="outlined"
+                    fullWidth
+                    autoComplete="address"
+                    autoFocus
+                    placeholder="Address"
+                    {...register("address", { 
+                        required: "Required"})
+                    }
+                    error={!!errors?.address}
+                    helperText={errors?.address ? errors.address.message : null}
                 />
                 <OrderBtn variant="contained" color="primary" type="submit">Order</OrderBtn>
             </Form>

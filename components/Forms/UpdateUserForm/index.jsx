@@ -1,29 +1,31 @@
 import { TextField, Alert } from "@mui/material";
-import { Form, InputField, UpdateBtn, FormLayout } from "./UpdateOrderFormStyle";
+import { Form, InputField, UpdateBtn, FormLayout } from "./UpdateUserFormStyle";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { updateItem } from "../../../util/common";
 
-const UpdateOrderForm = ({ order }) => {
+
+const UpdateUserForm = ({ user }) => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
-    const [errMsg, setErrMsg] = useState(null)
-    const [succMsg, setSuccMsg] = useState(null)
+    const [errMsg, setErrMsg] = useState(null);
+    const [succMsg, setSuccMsg] = useState(null);
 
     const onSubmit = async (data) => {
-        const id = order._id
-        const customer = order.customer;
-        const email = order.email;
-        const total = order.total;
-        const status = data.orderStatus;
-        const updatedOrder = { id, customer, email, total, status };
+        const id = user._id;
+        const name = data.name;
+        const email = data.email;
+        const password = data.password;
+        const address = data.address;
+        const status = data.status
+        const updatedUser = { id, name, email, password, address, status };
 
-        const result = await updateItem('orders', updatedOrder)
+        const result = await updateItem('user', updatedUser)
         if (result.data.hasError) {
             setSuccMsg(null)
-            setErrMsg("There is error while updating order's status...");
+            setErrMsg("There is some problem while updating user...");
         } else {
-            setErrMsg(null);
-            setSuccMsg("The order's status is updated successfully!");
+            setErrMsg(null)
+            setSuccMsg("User is updated successfully!")
         }
     }
 
@@ -36,70 +38,71 @@ const UpdateOrderForm = ({ order }) => {
                     <InputField>
                         <TextField
                             disabled
-                            label="Order ID"
-                            {...register("orderID")}
+                            label="User ID"
                             style={{ width: "300px" }}
                             type="text"
                             variant="outlined"
-                            value={order._id}
+                            value={user._id}
+                        />
+                    </InputField>
+                    <br />
+                    <InputField>
+                        <TextField
+                            style={{ width: "300px" }}
+                            label="User Name"
+                            {...register("name")}
+                            type="text"
+                            variant="outlined"
+                            defaultValue={user.name}
+                        />
+                    </InputField>
+                    <br />
+                    <InputField>
+                        <TextField
+                            label="Email"
+                            style={{ width: "300px" }}
+                            {...register("email")}
+                            variant="outlined"
+                            defaultValue={user.email}
                         />
                     </InputField>
                     <br />
                     <InputField>
                         <TextField
                             disabled
+                            label="Password"
+                            {...register("password")}
                             style={{ width: "300px" }}
-                            label="Customer"
-                            {...register("customer")}
-                            type="text"
                             variant="outlined"
-                            defaultValue={order.customer}
+                            defaultValue={user.password}
                         />
                     </InputField>
                     <br />
                     <InputField>
                         <TextField
-                            disabled
-                            label="Customer Email"
-                            style={{ width: "300px" }}
-                            {...register("customerEmail")}
-                            type="text"
-                            variant="outlined"
-                            defaultValue={order.email}
-                        />
-                    </InputField>
-                    <br />
-                    <InputField>
-                        <TextField
-                            disabled
-                            label="Total Cost"
-                            {...register("totalCost")}
-                            style={{ width: "300px" }}
-                            type="number"
-                            variant="outlined"
-                            defaultValue={order.total}
-                        />
-                    </InputField>
-                    <br />
-                    <InputField>
-                        <TextField
-                            label="Order Status"
-                            {...register("orderStatus", {
-                                required: "Required"
-                            }
-                            )}
+                            label="Address"
+                            {...register("address")}
                             style={{ width: "300px" }}
                             type="text"
                             variant="outlined"
                             multiline
-                            defaultValue={order.status}
-                            error={!!errors?.stock}
-                            helperText={errors?.stock ? errors.stock.message : null}
+                            defaultValue={user.address}
+                        />
+                    </InputField>
+                    <br />
+                    <InputField>
+                        <TextField
+                            label="Status"
+                            {...register("status")}
+                            style={{ width: "300px" }}
+                            type="text"
+                            variant="outlined"
+                            defaultValue={user.status}
                         />
                     </InputField>
                     <br />
                     <UpdateBtn variant="contained" color="primary" type="submit">
-                        Update
+                        Update User
                     </UpdateBtn>
                     <br />
                 </Form>
@@ -109,4 +112,4 @@ const UpdateOrderForm = ({ order }) => {
     );
 }
 
-export default UpdateOrderForm;
+export default UpdateUserForm;
