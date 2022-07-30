@@ -2,6 +2,7 @@ import { CustMenuDiv, CustMenuUl, CustMenuLink } from "./CustomerMenuStyle";
 import { signOut } from "next-auth/react"
 import { useDispatch, useSelector } from "react-redux";
 import { LOGIN_FAILURE } from "../../../redux/userSlice";
+import Link from "next/link";
 
 const CustomerMenu = () => {
     const userState = useSelector((state) => state.user);
@@ -13,17 +14,17 @@ const CustomerMenu = () => {
     return (
         <CustMenuDiv>
             <CustMenuUl>
-                <CustMenuLink><a href="/">home</a></CustMenuLink>
-                <CustMenuLink><a href="/cart">cart</a></CustMenuLink>
-                <CustMenuLink><a href={`/user/${userID}`}>my profile</a></CustMenuLink>
-                <CustMenuLink><a href={`/user/${userID}/orders`}>my orders</a></CustMenuLink>
+                <CustMenuLink><Link href="/">home</Link></CustMenuLink>
+                <CustMenuLink><Link href="/cart">cart</Link></CustMenuLink>
+                <CustMenuLink><Link href={`/user/${userID}`}>my profile</Link></CustMenuLink>
+                <CustMenuLink><Link href={`/user/${userID}/orders`}>my orders</Link></CustMenuLink>
                 <CustMenuLink>
-                    <a href="" onClick={() => signOut({
+                    <Link><a href="" onClick={() => signOut({
                         redirect: true
                     }).then(result =>
                         dispatch(LOGIN_FAILURE()))}>
                             logout
-                        </a>
+                        </a></Link>
                 </CustMenuLink>
             </CustMenuUl>
         </CustMenuDiv>
