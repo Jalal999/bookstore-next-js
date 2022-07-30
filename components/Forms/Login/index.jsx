@@ -8,6 +8,7 @@ import { useState } from "react";
 import { authConstants } from "../../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { LOGIN_SUCCESS } from "../../../redux/userSlice";
+import Link from "next/link"
 
 const LoginForm = () => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
@@ -85,7 +86,7 @@ const LoginForm = () => {
                     helperText={errors?.password ? errors.password.message : null}
                 />
                 <LoginBtn variant="contained" color="primary" type="submit">Login</LoginBtn>
-                <p>You dont have an account? <a href="/signup"><b>Register now!</b></a></p>
+                <p>You dont have an account? <Link href="/signup"><b>Register now!</b></Link></p>
             </Form>
         </Container>
     )
