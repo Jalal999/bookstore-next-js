@@ -11,7 +11,7 @@ const orders = ({ orders }) => {
         My Orders:
       </Typography>      
       {orders.map((order, index) =>
-        <UserOrder order={order} index={index} />
+        <UserOrder order={order} index={index} key={index} />
       )}
     </>
   )

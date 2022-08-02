@@ -55,7 +55,7 @@ const Navbar = () => {
                         </Link>
                     </MenuLink>
                     <MenuLink>
-                        <MenuIcon color='inherit' onClick={toggleDrawer(true)} />
+                        <MenuIcon data-testid='click' color='inherit' onClick={toggleDrawer(true)} />
                     </MenuLink>
                 </MenuLinks>
             </Nav>
