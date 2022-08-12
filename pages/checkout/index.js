@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 import OrderItem from "../../components/OrderItem";
 import { CheckoutBtn } from "../../components/CartItem/CartItemStyle";
 import { Checkout, OrderDesc, BreakLine } from "../../components/OrderItem/OrderItemStyle";
-import { Typography } from "@mui/material";
+import { Typography, Alert } from "@mui/material";
 import { useState } from "react";
 import OrderForm from "../../components/Forms/OrderForm";
 import { useRouter } from "next/router";
@@ -35,14 +35,13 @@ const Index = () => {
                 <BreakLine />
                 {showOrderForm && <OrderForm />}
                 {!user.authenticated ?
-                    <Link
-                        href={{
-                            pathname: "/login",
-                            query: "fromCheckout",
-                        }}
-                    >
-                        Login to complete your order!
-                    </Link>
+                    <Alert severity="info">
+                        <Link
+                            href={{
+                                pathname: "/login",
+                                query: "fromCheckout",
+                            }}
+                        ><b>Login</b></Link> to complete your order!</Alert>
                     :
                     !showOrderForm && <CheckoutBtn variant="contained" onClick={() => setShowOrderForm(true)}>Checkout</CheckoutBtn>}
             </Checkout>
