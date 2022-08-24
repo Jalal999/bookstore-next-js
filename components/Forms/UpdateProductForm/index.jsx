@@ -53,6 +53,7 @@ const UpdateProductForm = ({ product }) => {
             <TextField
               style={{ width: "300px" }}
               label="Product Name"
+              data-testid="productName"
               {...register("title")}
               type="text"
               variant="outlined"
